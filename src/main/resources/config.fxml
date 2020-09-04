@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTimePicker?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <BorderPane maxHeight="-Infinity" prefHeight="149.0" prefWidth="1144.0">
+               <center>
+                  <HBox alignment="CENTER" maxHeight="-Infinity" prefWidth="1144.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label text="Anfang">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <JFXTimePicker fx:id="timePicker1">
+                           <HBox.margin>
+                              <Insets right="50.0" />
+                           </HBox.margin>
+                        </JFXTimePicker>
+                     </children>
+                  </HBox>
+               </center>
+               <bottom>
+                  <TextField fx:id="factorTf1" maxWidth="-Infinity" prefHeight="25.0" prefWidth="102.0" BorderPane.alignment="CENTER" />
+               </bottom>
+               <top>
+                  <Label text="Morgens" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets top="50.0" />
+                     </BorderPane.margin>
+                  </Label>
+               </top>
+            </BorderPane>
+            <BorderPane maxHeight="-Infinity" prefHeight="149.0" prefWidth="1144.0">
+               <center>
+                  <HBox alignment="CENTER" maxHeight="-Infinity" prefWidth="1144.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label text="Anfang">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <JFXTimePicker fx:id="timePicker2">
+                           <HBox.margin>
+                              <Insets right="50.0" />
+                           </HBox.margin>
+                        </JFXTimePicker>
+                     </children>
+                  </HBox>
+               </center>
+               <bottom>
+                  <TextField fx:id="factorTf2" maxWidth="-Infinity" prefHeight="25.0" prefWidth="102.0" BorderPane.alignment="CENTER" />
+               </bottom>
+               <top>
+                  <Label text="Mittags" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets top="50.0" />
+                     </BorderPane.margin>
+                  </Label>
+               </top>
+            </BorderPane>
+            <BorderPane maxHeight="-Infinity" prefHeight="149.0" prefWidth="1144.0">
+               <center>
+                  <HBox alignment="CENTER" maxHeight="-Infinity" prefWidth="1144.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label text="Anfang">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <JFXTimePicker fx:id="timePicker3">
+                           <HBox.margin>
+                              <Insets right="50.0" />
+                           </HBox.margin>
+                        </JFXTimePicker>
+                     </children>
+                  </HBox>
+               </center>
+               <bottom>
+                  <TextField fx:id="factorTf3" maxWidth="-Infinity" prefHeight="25.0" prefWidth="102.0" BorderPane.alignment="CENTER" />
+               </bottom>
+               <top>
+                  <Label text="Abends" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets top="50.0" />
+                     </BorderPane.margin>
+                  </Label>
+               </top>
+            </BorderPane>
+            <Separator prefWidth="200.0">
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+            </Separator>
+            <Label text="Korrektur">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="correctionTf" maxWidth="-Infinity" prefHeight="25.0" prefWidth="103.0" />
+            <JFXButton fx:id="saveButton" style="-fx-background-color: #58f55b;" text="Speichern">
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </JFXButton>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

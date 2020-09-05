@@ -23,6 +23,7 @@ public class DataModel
     private Database db;
     private List<BloodSugarValueEntity> bloodSugarValues;
     private BolusFactorEntity[] bolusFactors;
+    private int correctionUnits;
 
     public static DataModel get()
     {
@@ -40,6 +41,17 @@ public class DataModel
         MessageDispatcher.get().dispatch(new ModelLoadStarted(this));
         this.bloodSugarValues = this.db.selectBloodSugarValues();
         this.bolusFactors = this.db.selectBolusFactors();
+
+        String correctionString = this.db.getProperty("CorrectionUnits");
+
+        if (correctionString == null)
+        {
+            correctionString = "30";
+            this.db.setProperty("CorrectionUnits", correctionString);
+        }
+
+        this.correctionUnits = Integer.parseInt(correctionString);
+
         MessageDispatcher.get().dispatch(new ModelLoaded(this));
     }
 
@@ -54,6 +66,22 @@ public class DataModel
     public List<BloodSugarValueEntity> getBloodSugarValues()
     {
         return this.bloodSugarValues;
+    }
+
+    public void updateBolusFactor(BolusFactorEntity entity)
+    {
+        this.db.updateBolusFactor(entity);
+    }
+
+    public int getCorretionUnits()
+    {
+        return this.correctionUnits;
+    }
+
+    public void setCorrectionUnits(int units)
+    {
+        this.correctionUnits = units;
+        this.db.setProperty("CorrectionUnits", units + "");
     }
 
     public void addBloodSugarValue(BloodSugarValueEntity entity)

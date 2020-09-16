@@ -113,7 +113,7 @@ public class AddBloodSugarScreen extends TabBase
             }
         });
 
-        PercentageSizedTableColumn<BloodSugarValueEntity> bzCol = new PercentageSizedTableColumn();
+        PercentageSizedTableColumn<BloodSugarValueEntity, String> bzCol = new PercentageSizedTableColumn();
         bzCol.setText("Blutzucker");
         bzCol.setPercentageWidth(50);
 

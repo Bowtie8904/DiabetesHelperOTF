@@ -100,7 +100,7 @@ public class Database extends EmbeddedDatabase
                     Logger.global().print(e.getSql());
                     return null;
                 })
-                .orderBy("startTime").asc()
+                .orderBy("bfid").asc()
                 .executeAsStream().stream().forEach(result ->
                 {
                     var bf = new BolusFactorEntity();

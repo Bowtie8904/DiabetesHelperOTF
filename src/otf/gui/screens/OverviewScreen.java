@@ -23,6 +23,7 @@ import otf.obj.msg.MessageDispatcher;
 import otf.obj.msg.ModelLoadStarted;
 import otf.obj.msg.ModelLoaded;
 import otf.obj.msg.NewBloodSugarValue;
+import otf.obj.msg.NewBolus;
 
 /**
  * @author &#8904
@@ -43,6 +44,7 @@ public class OverviewScreen extends TabBase
 
         MessageDispatcher.get().subscribeTo(NewBloodSugarValue.class, ent -> addEntry(ent.getBz()));
         MessageDispatcher.get().subscribeTo(DeletedBloodSugarValue.class, ent -> removeEntry(ent.getBz()));
+        MessageDispatcher.get().subscribeTo(NewBolus.class, e -> refreshTableData());
         MessageDispatcher.get().subscribeTo(ModelLoaded.class, e -> refreshTableData());
 
         MessageDispatcher.get().subscribeTo(ModelLoadStarted.class, e -> Platform.runLater(() -> this.table.setPlaceholder(new Label("Lade Werte"))));
@@ -96,7 +98,7 @@ public class OverviewScreen extends TabBase
             }
         });
 
-        PercentageSizedTableColumn<BloodSugarValueEntity> bzCol = new PercentageSizedTableColumn();
+        PercentageSizedTableColumn<BloodSugarValueEntity, String> bzCol = new PercentageSizedTableColumn();
         bzCol.setText("Blutzucker");
         bzCol.setPercentageWidth(13);
 

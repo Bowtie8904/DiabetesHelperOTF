@@ -98,4 +98,10 @@ public class BloodSugarValueEntity implements Comparable<BloodSugarValueEntity>
 
         return result;
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        return o != null && o instanceof BloodSugarValueEntity && ((BloodSugarValueEntity)o).getId().equals(this.id);
+    }
 }

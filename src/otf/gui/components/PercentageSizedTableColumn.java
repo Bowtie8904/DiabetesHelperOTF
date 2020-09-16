@@ -12,7 +12,7 @@ import javafx.scene.control.TableView;
  * @param <T>
  *
  */
-public class PercentageSizedTableColumn<T> extends TableColumn<T, String>
+public class PercentageSizedTableColumn<T, S> extends TableColumn<T, S>
 {
     private final DoubleProperty percentageWidth = new SimpleDoubleProperty(1);
 

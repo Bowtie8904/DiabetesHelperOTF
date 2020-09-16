@@ -1,5 +1,6 @@
 package otf.model;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -63,6 +64,23 @@ public class DataModel
         return this.bolusFactors;
     }
 
+    public BolusFactorEntity getCurrentBolusFactor()
+    {
+        BolusFactorEntity current = null;
+
+        long currentTime = LocalTime.now().toSecondOfDay() * 1000;
+
+        for (var ent : this.bolusFactors)
+        {
+            if (ent.getStartTime() < currentTime)
+            {
+                current = ent;
+            }
+        }
+
+        return current;
+    }
+
     public List<BloodSugarValueEntity> getBloodSugarValues()
     {
         return this.bloodSugarValues;
@@ -92,6 +110,14 @@ public class DataModel
             Collections.sort(this.bloodSugarValues);
             this.db.insertBloodSugarValue(entity);
             MessageDispatcher.get().dispatch(new NewBloodSugarValue(entity, this));
+        }
+    }
+
+    public void addBolus(BolusEntity entity)
+    {
+        if (entity.getId() == null)
+        {
+            this.db.insertBolus(entity);
         }
     }
 

@@ -15,6 +15,7 @@ import otf.obj.msg.MessageDispatcher;
 import otf.obj.msg.ModelLoadStarted;
 import otf.obj.msg.ModelLoaded;
 import otf.obj.msg.NewBloodSugarValue;
+import otf.obj.msg.NewBolus;
 
 /**
  * @author &#8904
@@ -147,5 +148,6 @@ public class DataModel
     {
         bz.setBolus(bo);
         this.db.connectBloodSugarBolus(bz, bo);
+        MessageDispatcher.get().dispatch(new NewBolus(bz, this));
     }
 }

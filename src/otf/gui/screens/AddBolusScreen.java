@@ -24,6 +24,7 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
@@ -117,6 +118,10 @@ public class AddBolusScreen extends TabBase
     @FxmlElement
     private BorderPane tablePane;
 
+    @FxmlElement
+    @FxHandler(type = FxOnAction.class, method = "calculateCorrection", withParameters = false)
+    private CheckBox doubleCheckbox;
+
     private ToggleGroup group = new ToggleGroup();
 
     private Map<BloodSugarValueEntity, RadioButton> radioButtonMap;
@@ -179,6 +184,8 @@ public class AddBolusScreen extends TabBase
 
         this.bolusTf.setText("0");
         this.totalBolusTf.setText("0");
+
+        this.doubleCheckbox.setDisable(false);
 
         calculateBolus();
         calculateCorrection();
@@ -257,6 +264,11 @@ public class AddBolusScreen extends TabBase
             }
 
             correction = amount / 2.0;
+
+            if (this.doubleCheckbox.isSelected())
+            {
+                correction *= 2;
+            }
         }
 
         this.correctionTf.setText(correction + "");
@@ -348,7 +360,7 @@ public class AddBolusScreen extends TabBase
     {
         PercentageSizedTableColumn<FoodEntity, String> nameCol = new PercentageSizedTableColumn();
         nameCol.setText("Name");
-        nameCol.setPercentageWidth(20);
+        nameCol.setPercentageWidth(35);
         nameCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, String>, ObservableValue<String>>()
         {
             @Override
@@ -360,7 +372,7 @@ public class AddBolusScreen extends TabBase
 
         PercentageSizedTableColumn<FoodEntity, String> weightCol = new PercentageSizedTableColumn();
         weightCol.setText("Gewicht (g)");
-        weightCol.setPercentageWidth(20);
+        weightCol.setPercentageWidth(15);
 
         weightCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, String>, ObservableValue<String>>()
         {
@@ -373,7 +385,7 @@ public class AddBolusScreen extends TabBase
 
         PercentageSizedTableColumn<FoodEntity, String> carboCol = new PercentageSizedTableColumn();
         carboCol.setText("Kohlenhydrate (g)");
-        carboCol.setPercentageWidth(20);
+        carboCol.setPercentageWidth(15);
 
         carboCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, String>, ObservableValue<String>>()
         {
@@ -386,7 +398,7 @@ public class AddBolusScreen extends TabBase
 
         PercentageSizedTableColumn<FoodEntity, JFXButton> addCol = new PercentageSizedTableColumn();
         addCol.setText("");
-        addCol.setPercentageWidth(20);
+        addCol.setPercentageWidth(15);
 
         addCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, JFXButton>, ObservableValue<JFXButton>>()
         {
@@ -401,7 +413,7 @@ public class AddBolusScreen extends TabBase
 
         PercentageSizedTableColumn<FoodEntity, JFXButton> delCol = new PercentageSizedTableColumn();
         delCol.setText("");
-        delCol.setPercentageWidth(20);
+        delCol.setPercentageWidth(15);
 
         delCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, JFXButton>, ObservableValue<JFXButton>>()
         {
@@ -422,7 +434,7 @@ public class AddBolusScreen extends TabBase
     {
         PercentageSizedTableColumn<FoodEntity, String> nameCol = new PercentageSizedTableColumn();
         nameCol.setText("Name");
-        nameCol.setPercentageWidth(20);
+        nameCol.setPercentageWidth(35);
         nameCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, String>, ObservableValue<String>>()
         {
             @Override
@@ -434,7 +446,7 @@ public class AddBolusScreen extends TabBase
 
         PercentageSizedTableColumn<FoodEntity, String> weightCol = new PercentageSizedTableColumn();
         weightCol.setText("Gewicht (g)");
-        weightCol.setPercentageWidth(20);
+        weightCol.setPercentageWidth(15);
 
         weightCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, String>, ObservableValue<String>>()
         {
@@ -447,7 +459,7 @@ public class AddBolusScreen extends TabBase
 
         PercentageSizedTableColumn<FoodEntity, String> carboCol = new PercentageSizedTableColumn();
         carboCol.setText("Kohlenhydrate (g)");
-        carboCol.setPercentageWidth(20);
+        carboCol.setPercentageWidth(15);
 
         carboCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, String>, ObservableValue<String>>()
         {
@@ -460,7 +472,7 @@ public class AddBolusScreen extends TabBase
 
         PercentageSizedTableColumn<FoodEntity, Spinner> amountCol = new PercentageSizedTableColumn();
         amountCol.setText("Menge");
-        amountCol.setPercentageWidth(20);
+        amountCol.setPercentageWidth(15);
 
         amountCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, Spinner>, ObservableValue<Spinner>>()
         {
@@ -485,7 +497,7 @@ public class AddBolusScreen extends TabBase
 
         PercentageSizedTableColumn<FoodEntity, JFXButton> delCol = new PercentageSizedTableColumn();
         delCol.setText("");
-        delCol.setPercentageWidth(20);
+        delCol.setPercentageWidth(15);
 
         delCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, JFXButton>, ObservableValue<JFXButton>>()
         {
@@ -604,6 +616,8 @@ public class AddBolusScreen extends TabBase
 
         this.saveFoodButton.setDisable(true);
         this.searchTf.setDisable(true);
+
+        this.doubleCheckbox.setDisable(true);
     }
 
     private void refreshBzTableData()

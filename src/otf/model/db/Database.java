@@ -17,6 +17,7 @@ import bt.log.Logger;
 import otf.obj.BloodSugarValueEntity;
 import otf.obj.BolusEntity;
 import otf.obj.BolusFactorEntity;
+import otf.obj.FoodEntity;
 
 /**
  * @author &#8904
@@ -86,6 +87,80 @@ public class Database extends EmbeddedDatabase
                     insertBolusFactor(new BolusFactorEntity(1.5, LocalTime.of(11, 30).toSecondOfDay() * 1000));
                     insertBolusFactor(new BolusFactorEntity(1.0, LocalTime.of(17, 30).toSecondOfDay() * 1000));
                 })
+                .execute();
+
+        create().table("Food")
+                .column(new Column("foodId", SqlType.LONG).primaryKey().generated(Generated.ALWAYS).asIdentity())
+                .column(new Column("Weight", SqlType.INTEGER))
+                .column(new Column("Name", SqlType.VARCHAR).size(200))
+                .column(new Column("Carbohydrates", SqlType.INTEGER))
+                .onAlreadyExists((stmt, e) ->
+                {
+                    Database.log.print("Table " + stmt.getName() + " already exists.");
+                    Database.log.print("Execution time: " + stmt.getExecutionTime());
+                    return 0;
+                })
+                .onSuccess((stmt, e) ->
+                {
+                    Database.log.print("Created table " + stmt.getName() + ".");
+                    Database.log.print("Execution time: " + stmt.getExecutionTime());
+                })
+                .execute();
+    }
+
+    public List<FoodEntity> selectFoodEntities()
+    {
+        List<FoodEntity> list = new ArrayList<>();
+
+        select().from("Food")
+                .onFail((stmt, e) ->
+                {
+                    Logger.global().print(e);
+                    Logger.global().print(e.getSql());
+                    return null;
+                })
+                .orderBy("Name").asc()
+                .executeAsStream().stream().forEach(result ->
+                {
+                    var food = new FoodEntity();
+
+                    try
+                    {
+                        food.setId(result.getLong("foodId"));
+                        food.setName(result.getString("Name"));
+                        food.setWeight(result.getInt("Weight"));
+                        food.setCarbohydrates(result.getInt("Carbohydrates"));
+                    }
+                    catch (SQLException e)
+                    {
+                        Logger.global().print(e);
+                    }
+
+                    list.add(food);
+                });
+
+        return list;
+    }
+
+    public void insertFoodEntity(FoodEntity entity)
+    {
+        insert().into("Food")
+                .set("Name", entity.getName())
+                .set("Weight", entity.getWeight())
+                .set("Carbohydrates", entity.getCarbohydrates())
+                .onSuccess((stmt, i) ->
+                {
+                    entity.setId(IdentityListener.getLast("Food"));
+                })
+                .commit()
+                .execute();
+    }
+
+    public void deleteFoodEntity(FoodEntity entity)
+    {
+        delete().from("Food")
+                .where("foodId").equal(entity.getId())
+                .commit()
                 .execute();
     }
 

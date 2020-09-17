@@ -53,6 +53,8 @@ public class OverviewScreen extends TabBase
 
     private void refreshTableData()
     {
+        this.table.getItems().clear();
+        this.table.refresh();
         this.table.getItems().setAll(DataModel.get().getBloodSugarValues());
     }
 

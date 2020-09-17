@@ -30,6 +30,7 @@ public class BaseScreen extends FxMultiScreen
         addTabScreens(AddBloodSugarScreen.class);
         addTabScreens(AddBolusScreen.class);
         addTabScreens(ConfigScreen.class);
+        // addTabScreens(GraphScreen.class);
     }
 
     public <T extends TabBase> void addTabScreens(Class<T>... screenTypes)

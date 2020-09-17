@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -14,7 +15,7 @@
    <bottom>
       <BorderPane fx:id="tablePane" BorderPane.alignment="CENTER">
          <center>
-            <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" />
+            <TableView fx:id="bzTable" prefHeight="200.0" prefWidth="200.0" />
          </center>
          <bottom>
             <BorderPane BorderPane.alignment="CENTER">
@@ -22,7 +23,7 @@
                   <Insets bottom="10.0" top="10.0" />
                </BorderPane.margin>
                <center>
-                  <JFXButton fx:id="saveButton" style="-fx-background-color: #58f55b;" text="Hinzufügen" />
+                  <JFXButton fx:id="saveBolusButton" style="-fx-background-color: #58f55b;" text="Hinzufügen" />
                </center>
                <bottom>
                   <Label fx:id="successLabel" BorderPane.alignment="CENTER">
@@ -36,92 +37,144 @@
       </BorderPane>
    </bottom>
    <center>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="CENTER">
-               <VBox.margin>
-                  <Insets top="100.0" />
-               </VBox.margin>
+      <SplitPane dividerPositions="0.5" BorderPane.alignment="CENTER">
+         <items>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label fx:id="bzLabel" text="Blutzucker:" />
-                  <TextField fx:id="bzTf" disable="true" editable="false">
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </TextField>
+                  <HBox alignment="CENTER_RIGHT">
+                     <VBox.margin>
+                        <Insets right="150.0" top="100.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label fx:id="bzLabel" text="Blutzucker:" />
+                        <TextField fx:id="bzTf" disable="true" editable="false">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT">
+                     <children>
+                        <Label fx:id="beLabel" text="BE:" />
+                        <TextField fx:id="beTf">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets right="150.0" top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT">
+                     <children>
+                        <Label fx:id="factorLabel" text="Faktor:" />
+                        <TextField fx:id="factorTf" disable="true" editable="false">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets right="150.0" top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Separator prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </Separator>
+                  <HBox alignment="CENTER_RIGHT">
+                     <children>
+                        <Label fx:id="bolusLabel" text="Bolus für BE:" />
+                        <TextField fx:id="bolusTf">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets right="150.0" top="30.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT">
+                     <children>
+                        <Label fx:id="correctionLabel" text="Korrektureinheiten:" />
+                        <TextField fx:id="correctionTf">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets right="150.0" top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT">
+                     <children>
+                        <Label fx:id="totalBolusLabel" text="Gesamtbolus:" />
+                        <TextField fx:id="totalBolusTf" disable="true" editable="false">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets right="150.0" top="20.0" />
+                     </VBox.margin>
+                  </HBox>
                </children>
-            </HBox>
-            <HBox alignment="CENTER">
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label fx:id="beLabel" text="BE:" />
-                  <TextField fx:id="beTf">
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Name">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="foodNameTf" />
+                        <Label text="Gewicht (g)">
+                           <HBox.margin>
+                              <Insets left="30.0" right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="weightTf" prefHeight="25.0" prefWidth="60.0" />
+                        <Label text="Kohlenhydrate (g)">
+                           <HBox.margin>
+                              <Insets left="30.0" right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="foodBeTf" prefHeight="25.0" prefWidth="60.0" />
+                        <JFXButton fx:id="saveFoodButton" style="-fx-background-color: #58f55b;" text="Speichern">
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <Separator prefWidth="200.0" />
+                  <TextField fx:id="searchTf" promptText="Suchen..">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
                   </TextField>
+                  <TableView fx:id="allFoodTable" prefHeight="200.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="5.0" />
+                     </VBox.margin>
+                  </TableView>
+                  <Separator prefWidth="200.0" />
+                  <TableView fx:id="selectedFoodTable" prefHeight="200.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </TableView>
                </children>
-               <VBox.margin>
-                  <Insets top="20.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER">
-               <children>
-                  <Label fx:id="factorLabel" text="Faktor:" />
-                  <TextField fx:id="factorTf" disable="true" editable="false">
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </TextField>
-               </children>
-               <VBox.margin>
-                  <Insets top="20.0" />
-               </VBox.margin>
-            </HBox>
-            <Separator prefWidth="200.0">
-               <VBox.margin>
-                  <Insets top="30.0" />
-               </VBox.margin>
-            </Separator>
-            <HBox alignment="CENTER">
-               <children>
-                  <Label fx:id="bolusLabel" text="Bolus für BE:" />
-                  <TextField fx:id="bolusTf">
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </TextField>
-               </children>
-               <VBox.margin>
-                  <Insets top="30.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER">
-               <children>
-                  <Label fx:id="correctionLabel" text="Korrektureinheiten:" />
-                  <TextField fx:id="correctionTf">
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </TextField>
-               </children>
-               <VBox.margin>
-                  <Insets top="20.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER">
-               <children>
-                  <Label fx:id="totalBolusLabel" text="Gesamtbolus:" />
-                  <TextField fx:id="totalBolusTf" disable="true" editable="false">
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </TextField>
-               </children>
-               <VBox.margin>
-                  <Insets top="20.0" />
-               </VBox.margin>
-            </HBox>
-         </children>
-      </VBox>
+            </VBox>
+         </items>
+      </SplitPane>
    </center>
 </BorderPane>

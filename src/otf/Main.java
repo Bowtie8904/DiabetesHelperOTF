@@ -7,6 +7,8 @@ import bt.scheduler.Threads;
 import otf.gui.ScreenManager;
 import otf.model.DataModel;
 import otf.model.db.Database;
+import otf.model.text.TextDefinition;
+import otf.model.text.Texts;
 
 /**
  * @author &#8904
@@ -19,6 +21,10 @@ public class Main
         Logger.global().hookSystemErr();
         Logger.global().hookSystemOut();
         Database.log = Logger.global();
+
+        Texts.get().register(new TextDefinition());
+        Texts.get().setLanguage("DE");
+        Texts.get().load("all");
 
         ScreenInstanceDispatcher.get().subscribeTo(ApplicationStarted.class, e ->
         {

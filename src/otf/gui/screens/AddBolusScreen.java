@@ -16,6 +16,7 @@ import bt.gui.fx.core.annot.handl.chang.type.FxTextMustMatch;
 import bt.gui.fx.core.annot.handl.evnt.type.FxOnAction;
 import bt.gui.fx.core.annot.handl.evnt.type.FxOnMouseEntered;
 import bt.gui.fx.core.annot.handl.evnt.type.FxOnMouseExited;
+import bt.gui.fx.core.annot.setup.FxTextApply;
 import bt.gui.fx.util.ButtonHandling;
 import bt.utils.string.StringUtils;
 import javafx.application.Platform;
@@ -38,6 +39,8 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import otf.gui.components.PercentageSizedTableColumn;
 import otf.model.DataModel;
+import otf.model.text.TextDefinition;
+import otf.model.text.Texts;
 import otf.obj.BloodSugarValueEntity;
 import otf.obj.BolusEntity;
 import otf.obj.FoodEntity;
@@ -74,6 +77,7 @@ public class AddBolusScreen extends TabBase
 
     @FxmlElement
     @FxHandler(type = FxStringChange.class, property = "textProperty", method = "searchFood", withParameters = false)
+    @FxTextApply(method = "setPromptText", textId = TextDefinition.PROMPT_SEARCH)
     private TextField searchTf;
 
     @FxmlElement
@@ -107,12 +111,14 @@ public class AddBolusScreen extends TabBase
     @FxHandler(type = FxOnAction.class, method = "saveBolus", withParameters = false)
     @FxHandler(type = FxOnMouseEntered.class, methodClass = ButtonHandling.class, method = "onMouseEnter", withParameters = false, passField = true)
     @FxHandler(type = FxOnMouseExited.class, methodClass = ButtonHandling.class, method = "onMouseExit", withParameters = false, passField = true)
+    @FxTextApply(textId = TextDefinition.ADD)
     private JFXButton saveBolusButton;
 
     @FxmlElement
     @FxHandler(type = FxOnAction.class, method = "saveFood", withParameters = false)
     @FxHandler(type = FxOnMouseEntered.class, methodClass = ButtonHandling.class, method = "onMouseEnter", withParameters = false, passField = true)
     @FxHandler(type = FxOnMouseExited.class, methodClass = ButtonHandling.class, method = "onMouseExit", withParameters = false, passField = true)
+    @FxTextApply(textId = TextDefinition.SAVE)
     private JFXButton saveFoodButton;
 
     @FxmlElement
@@ -120,7 +126,44 @@ public class AddBolusScreen extends TabBase
 
     @FxmlElement
     @FxHandler(type = FxOnAction.class, method = "calculateCorrection", withParameters = false)
+    @FxTextApply(textId = TextDefinition.DOUBLE_CORRECTION)
     private CheckBox doubleCheckbox;
+
+    @FxmlElement
+    @FxTextApply(textId = TextDefinition.LABEL_BLOODSUGAR)
+    private Label bzLabel;
+
+    @FxmlElement
+    @FxTextApply(textId = TextDefinition.LABEL_BE)
+    private Label beLabel;
+
+    @FxmlElement
+    @FxTextApply(textId = TextDefinition.LABEL_FACTOR)
+    private Label factorLabel;
+
+    @FxmlElement
+    @FxTextApply(textId = TextDefinition.LABEL_BOLUS)
+    private Label bolusLabel;
+
+    @FxmlElement
+    @FxTextApply(textId = TextDefinition.LABEL_CORRECTION)
+    private Label correctionLabel;
+
+    @FxmlElement
+    @FxTextApply(textId = TextDefinition.LABEL_TOTAL_BOLUS)
+    private Label totalBolusLabel;
+
+    @FxmlElement
+    @FxTextApply(textId = TextDefinition.LABEL_NAME)
+    private Label nameLabel;
+
+    @FxmlElement
+    @FxTextApply(textId = TextDefinition.LABEL_WEIGHT)
+    private Label weightLabel;
+
+    @FxmlElement
+    @FxTextApply(textId = TextDefinition.LABEL_CARBOHYDRATES)
+    private Label carbLabel;
 
     private ToggleGroup group = new ToggleGroup();
 
@@ -311,7 +354,7 @@ public class AddBolusScreen extends TabBase
         });
 
         PercentageSizedTableColumn<BloodSugarValueEntity, RadioButton> selectColumn = new PercentageSizedTableColumn();
-        selectColumn.setText("Auswahl");
+        selectColumn.setText(Texts.get().get(TextDefinition.SELECTION).toString());
         selectColumn.setPercentageWidth(20);
 
         selectColumn.setCellValueFactory(new Callback<CellDataFeatures<BloodSugarValueEntity, RadioButton>, ObservableValue<RadioButton>>()
@@ -326,7 +369,7 @@ public class AddBolusScreen extends TabBase
         });
 
         PercentageSizedTableColumn timestampCol = new PercentageSizedTableColumn();
-        timestampCol.setText("Zeit");
+        timestampCol.setText(Texts.get().get(TextDefinition.TIME).toString());
         timestampCol.setPercentageWidth(40);
 
         timestampCol.setCellValueFactory(new Callback<CellDataFeatures<BloodSugarValueEntity, String>, ObservableValue<String>>()
@@ -340,7 +383,7 @@ public class AddBolusScreen extends TabBase
         });
 
         PercentageSizedTableColumn<BloodSugarValueEntity, String> bzCol = new PercentageSizedTableColumn();
-        bzCol.setText("Blutzucker");
+        bzCol.setText(Texts.get().get(TextDefinition.BLOODSUGAR).toString());
         bzCol.setPercentageWidth(40);
 
         bzCol.setCellValueFactory(new Callback<CellDataFeatures<BloodSugarValueEntity, String>, ObservableValue<String>>()
@@ -352,14 +395,14 @@ public class AddBolusScreen extends TabBase
             }
         });
 
-        this.bzTable.setPlaceholder(new Label("Keine Werte gefunden"));
+        this.bzTable.setPlaceholder(new Label(Texts.get().get(TextDefinition.NO_VALUES_FOUND).toString()));
         this.bzTable.getColumns().addAll(selectColumn, timestampCol, bzCol);
     }
 
     private void setupAllFoodTable()
     {
         PercentageSizedTableColumn<FoodEntity, String> nameCol = new PercentageSizedTableColumn();
-        nameCol.setText("Name");
+        nameCol.setText(Texts.get().get(TextDefinition.NAME).toString());
         nameCol.setPercentageWidth(35);
         nameCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, String>, ObservableValue<String>>()
         {
@@ -371,7 +414,7 @@ public class AddBolusScreen extends TabBase
         });
 
         PercentageSizedTableColumn<FoodEntity, String> weightCol = new PercentageSizedTableColumn();
-        weightCol.setText("Gewicht (g)");
+        weightCol.setText(Texts.get().get(TextDefinition.WEIGHT).toString());
         weightCol.setPercentageWidth(15);
 
         weightCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, String>, ObservableValue<String>>()
@@ -384,7 +427,7 @@ public class AddBolusScreen extends TabBase
         });
 
         PercentageSizedTableColumn<FoodEntity, String> carboCol = new PercentageSizedTableColumn();
-        carboCol.setText("Kohlenhydrate (g)");
+        carboCol.setText(Texts.get().get(TextDefinition.CARBOHYDRATES).toString());
         carboCol.setPercentageWidth(15);
 
         carboCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, String>, ObservableValue<String>>()
@@ -405,7 +448,7 @@ public class AddBolusScreen extends TabBase
             @Override
             public ObservableValue<JFXButton> call(CellDataFeatures<FoodEntity, JFXButton> t)
             {
-                var button = new JFXButton("Hinzufügen");
+                var button = new JFXButton(Texts.get().get(TextDefinition.ADD).toString());
                 addAddButton(t.getValue(), button);
                 return new ReadOnlyObjectWrapper(button);
             }
@@ -420,20 +463,20 @@ public class AddBolusScreen extends TabBase
             @Override
             public ObservableValue<JFXButton> call(CellDataFeatures<FoodEntity, JFXButton> t)
             {
-                var button = new JFXButton("Löschen");
+                var button = new JFXButton(Texts.get().get(TextDefinition.DELETE).toString());
                 addDeleteButton(t.getValue(), button);
                 return new ReadOnlyObjectWrapper(button);
             }
         });
 
-        this.allFoodTable.setPlaceholder(new Label("Keine Werte gefunden"));
+        this.allFoodTable.setPlaceholder(new Label(Texts.get().get(TextDefinition.NO_VALUES_FOUND).toString()));
         this.allFoodTable.getColumns().addAll(nameCol, weightCol, carboCol, addCol, delCol);
     }
 
     private void setupSelectedFoodTable()
     {
         PercentageSizedTableColumn<FoodEntity, String> nameCol = new PercentageSizedTableColumn();
-        nameCol.setText("Name");
+        nameCol.setText(Texts.get().get(TextDefinition.NAME).toString());
         nameCol.setPercentageWidth(35);
         nameCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, String>, ObservableValue<String>>()
         {
@@ -445,7 +488,7 @@ public class AddBolusScreen extends TabBase
         });
 
         PercentageSizedTableColumn<FoodEntity, String> weightCol = new PercentageSizedTableColumn();
-        weightCol.setText("Gewicht (g)");
+        weightCol.setText(Texts.get().get(TextDefinition.WEIGHT).toString());
         weightCol.setPercentageWidth(15);
 
         weightCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, String>, ObservableValue<String>>()
@@ -458,7 +501,7 @@ public class AddBolusScreen extends TabBase
         });
 
         PercentageSizedTableColumn<FoodEntity, String> carboCol = new PercentageSizedTableColumn();
-        carboCol.setText("Kohlenhydrate (g)");
+        carboCol.setText(Texts.get().get(TextDefinition.CARBOHYDRATES).toString());
         carboCol.setPercentageWidth(15);
 
         carboCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, String>, ObservableValue<String>>()
@@ -471,7 +514,7 @@ public class AddBolusScreen extends TabBase
         });
 
         PercentageSizedTableColumn<FoodEntity, Spinner> amountCol = new PercentageSizedTableColumn();
-        amountCol.setText("Menge");
+        amountCol.setText(Texts.get().get(TextDefinition.AMOUNT).toString());
         amountCol.setPercentageWidth(15);
 
         amountCol.setCellValueFactory(new Callback<CellDataFeatures<FoodEntity, Spinner>, ObservableValue<Spinner>>()
@@ -504,13 +547,13 @@ public class AddBolusScreen extends TabBase
             @Override
             public ObservableValue<JFXButton> call(CellDataFeatures<FoodEntity, JFXButton> t)
             {
-                var button = new JFXButton("Entfernen");
+                var button = new JFXButton(Texts.get().get(TextDefinition.REMOVE).toString());
                 addRemoveButton(t.getValue(), button);
                 return new ReadOnlyObjectWrapper(button);
             }
         });
 
-        this.selectedFoodTable.setPlaceholder(new Label("Keine Werte gefunden"));
+        this.selectedFoodTable.setPlaceholder(new Label(Texts.get().get(TextDefinition.NO_VALUES_FOUND).toString()));
         this.selectedFoodTable.getColumns().addAll(nameCol, weightCol, carboCol, amountCol, delCol);
     }
 
@@ -556,7 +599,7 @@ public class AddBolusScreen extends TabBase
     @Override
     public String getTabName()
     {
-        return "Neuer Bolus";
+        return Texts.get().get(TextDefinition.NEW_BOLUS).toString();
     }
 
     /**
@@ -590,17 +633,17 @@ public class AddBolusScreen extends TabBase
 
         MessageDispatcher.get().subscribeTo(ModelLoadStarted.class, e -> Platform.runLater(() ->
         {
-            this.bzTable.setPlaceholder(new Label("Lade Werte..."));
-            this.allFoodTable.setPlaceholder(new Label("Lade Werte..."));
-            this.selectedFoodTable.setPlaceholder(new Label("Keine Werte gefunden"));
+            this.bzTable.setPlaceholder(new Label(Texts.get().get(TextDefinition.LOADING_VALUES).toString()));
+            this.allFoodTable.setPlaceholder(new Label(Texts.get().get(TextDefinition.LOADING_VALUES).toString()));
+            this.selectedFoodTable.setPlaceholder(new Label(Texts.get().get(TextDefinition.NO_VALUES_FOUND).toString()));
         }));
 
         MessageDispatcher.get().subscribeTo(ModelLoaded.class, e -> Platform.runLater(() ->
         {
             refreshBzTableData();
             this.allFoodTable.getItems().setAll(DataModel.get().getFoodEntities());
-            this.bzTable.setPlaceholder(new Label("Keine Werte gefunden"));
-            this.allFoodTable.setPlaceholder(new Label("Keine Werte gefunden"));
+            this.bzTable.setPlaceholder(new Label(Texts.get().get(TextDefinition.NO_VALUES_FOUND).toString()));
+            this.allFoodTable.setPlaceholder(new Label(Texts.get().get(TextDefinition.NO_VALUES_FOUND).toString()));
             this.saveFoodButton.setDisable(false);
             this.searchTf.setDisable(false);
         }));

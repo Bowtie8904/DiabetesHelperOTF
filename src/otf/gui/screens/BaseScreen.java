@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
+import otf.model.text.TextDefinition;
+import otf.model.text.Texts;
 import otf.obj.msg.MessageDispatcher;
 import otf.obj.msg.ModelLoadStarted;
 import otf.obj.msg.ModelLoaded;
@@ -46,6 +48,7 @@ public class BaseScreen extends FxMultiScreen
     private void setupTab(Class<? extends TabBase> type)
     {
         TabBase screen = (TabBase)getScreen(type);
+        screen.setTextLoader(Texts.get());
         screen.load();
         Tab tab = new Tab();
         tab.setText(screen.getTabName());
@@ -74,10 +77,10 @@ public class BaseScreen extends FxMultiScreen
     {
         setShouldMaximize(true);
         setIcons("/blooddrop.png");
-        stage.setTitle("Diabetes Helper (OTF)");
+        stage.setTitle(Texts.get().get(TextDefinition.TITLE).toString());
 
-        MessageDispatcher.get().subscribeTo(ModelLoadStarted.class, e -> Platform.runLater(() -> stage.setTitle("Diabetes Helper (OTF)     Loading data...")));
-        MessageDispatcher.get().subscribeTo(ModelLoaded.class, e -> Platform.runLater(() -> stage.setTitle("Diabetes Helper (OTF)")));
+        MessageDispatcher.get().subscribeTo(ModelLoadStarted.class, e -> Platform.runLater(() -> stage.setTitle(Texts.get().get(TextDefinition.TITLE_LOADING).toString())));
+        MessageDispatcher.get().subscribeTo(ModelLoaded.class, e -> Platform.runLater(() -> stage.setTitle(Texts.get().get(TextDefinition.TITLE).toString())));
     }
 
     /**

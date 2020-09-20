@@ -15,6 +15,7 @@ import bt.gui.fx.core.annot.handl.chang.type.FxTextMustMatch;
 import bt.gui.fx.core.annot.handl.evnt.type.FxOnAction;
 import bt.gui.fx.core.annot.handl.evnt.type.FxOnMouseEntered;
 import bt.gui.fx.core.annot.handl.evnt.type.FxOnMouseExited;
+import bt.gui.fx.core.annot.setup.FxTextApply;
 import bt.gui.fx.util.ButtonHandling;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
@@ -30,6 +31,8 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import otf.gui.components.PercentageSizedTableColumn;
 import otf.model.DataModel;
+import otf.model.text.TextDefinition;
+import otf.model.text.Texts;
 import otf.obj.BloodSugarValueEntity;
 import otf.obj.msg.MessageDispatcher;
 import otf.obj.msg.NewBloodSugarValue;
@@ -44,6 +47,7 @@ public class AddBloodSugarScreen extends TabBase
     @FxHandler(type = FxOnAction.class, method = "saveBloodSugar", withParameters = false)
     @FxHandler(type = FxOnMouseEntered.class, methodClass = ButtonHandling.class, method = "onMouseEnter", withParameters = false, passField = true)
     @FxHandler(type = FxOnMouseExited.class, methodClass = ButtonHandling.class, method = "onMouseExit", withParameters = false, passField = true)
+    @FxTextApply(textId = TextDefinition.SAVE)
     private JFXButton saveButton;
 
     @FxmlElement
@@ -69,7 +73,7 @@ public class AddBloodSugarScreen extends TabBase
     @Override
     public String getTabName()
     {
-        return "Neuer Blutzuckerwert";
+        return Texts.get().get(TextDefinition.NEW_BLOODSUGAR).toString();
     }
 
     public void saveBloodSugar()
@@ -81,6 +85,7 @@ public class AddBloodSugarScreen extends TabBase
 
         this.datePicker.setValue(LocalDate.now());
         this.timePicker.setValue(LocalTime.now());
+        this.saveButton.setText("");
     }
 
     private void setupTable()
@@ -100,7 +105,7 @@ public class AddBloodSugarScreen extends TabBase
         });
 
         PercentageSizedTableColumn timestampCol = new PercentageSizedTableColumn();
-        timestampCol.setText("Zeit");
+        timestampCol.setText(Texts.get().get(TextDefinition.TIME).toString());
         timestampCol.setPercentageWidth(50);
 
         timestampCol.setCellValueFactory(new Callback<CellDataFeatures<BloodSugarValueEntity, String>, ObservableValue<String>>()
@@ -114,7 +119,7 @@ public class AddBloodSugarScreen extends TabBase
         });
 
         PercentageSizedTableColumn<BloodSugarValueEntity, String> bzCol = new PercentageSizedTableColumn();
-        bzCol.setText("Blutzucker");
+        bzCol.setText(Texts.get().get(TextDefinition.BLOODSUGAR).toString());
         bzCol.setPercentageWidth(50);
 
         bzCol.setCellValueFactory(new Callback<CellDataFeatures<BloodSugarValueEntity, String>, ObservableValue<String>>()
@@ -126,7 +131,7 @@ public class AddBloodSugarScreen extends TabBase
             }
         });
 
-        this.table.setPlaceholder(new Label("Keine neuen Werte gefunden"));
+        this.table.setPlaceholder(new Label(Texts.get().get(TextDefinition.NO_VALUES_FOUND).toString()));
         this.table.getColumns().addAll(timestampCol, bzCol);
     }
 

@@ -143,19 +143,19 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label text="Name">
+                        <Label fx:id="nameLabel" text="Name">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Label>
                         <TextField fx:id="foodNameTf" />
-                        <Label text="Gewicht (g)">
+                        <Label fx:id="weightLabel" text="Gewicht (g)">
                            <HBox.margin>
                               <Insets left="30.0" right="5.0" />
                            </HBox.margin>
                         </Label>
                         <TextField fx:id="weightTf" prefHeight="25.0" prefWidth="60.0" />
-                        <Label text="Kohlenhydrate (g)">
+                        <Label fx:id="carbLabel" text="Kohlenhydrate (g)">
                            <HBox.margin>
                               <Insets left="30.0" right="5.0" />
                            </HBox.margin>

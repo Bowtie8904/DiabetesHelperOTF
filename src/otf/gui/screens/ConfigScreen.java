@@ -13,6 +13,7 @@ import bt.gui.fx.core.annot.handl.chang.type.FxTextMustMatch;
 import bt.gui.fx.core.annot.handl.evnt.type.FxOnAction;
 import bt.gui.fx.core.annot.handl.evnt.type.FxOnMouseEntered;
 import bt.gui.fx.core.annot.handl.evnt.type.FxOnMouseExited;
+import bt.gui.fx.core.annot.setup.FxTextApply;
 import bt.gui.fx.util.ButtonHandling;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -21,6 +22,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import otf.model.DataModel;
+import otf.model.text.TextDefinition;
+import otf.model.text.Texts;
 import otf.obj.msg.MessageDispatcher;
 import otf.obj.msg.ModelLoaded;
 
@@ -66,10 +69,39 @@ public class ConfigScreen extends TabBase
     @FxHandler(type = FxOnAction.class, method = "saveConfig", withParameters = false)
     @FxHandler(type = FxOnMouseEntered.class, methodClass = ButtonHandling.class, method = "onMouseEnter", withParameters = false, passField = true)
     @FxHandler(type = FxOnMouseExited.class, methodClass = ButtonHandling.class, method = "onMouseExit", withParameters = false, passField = true)
+    @FxTextApply(textId = TextDefinition.SAVE)
     private JFXButton saveButton;
 
     @FxmlElement
-    private Label label;
+    private Label successLabel;
+
+    @FxmlElement
+    @FxTextApply(textId = TextDefinition.LABEL_MORNING)
+    private Label morningLabel;
+
+    @FxmlElement
+    @FxTextApply(textId = TextDefinition.LABEL_BEGINNING)
+    private Label morningStartLabel;
+
+    @FxmlElement
+    @FxTextApply(textId = TextDefinition.LABEL_NOON)
+    private Label noonLabel;
+
+    @FxmlElement
+    @FxTextApply(textId = TextDefinition.LABEL_BEGINNING)
+    private Label noonStartLabel;
+
+    @FxmlElement
+    @FxTextApply(textId = TextDefinition.LABEL_EVENING)
+    private Label eveningLabel;
+
+    @FxmlElement
+    @FxTextApply(textId = TextDefinition.LABEL_BEGINNING)
+    private Label eveningStartLabel;
+
+    @FxmlElement
+    @FxTextApply(textId = TextDefinition.CORRECTION)
+    private Label correctionLabel;
 
     private boolean modelLoaded;
 
@@ -92,7 +124,7 @@ public class ConfigScreen extends TabBase
 
         DataModel.get().setCorrectionUnits(Integer.parseInt(this.correctionTf.getText()));
 
-        this.label.setText("Erfolgreich gespeichert");
+        this.successLabel.setText(Texts.get().get(TextDefinition.SAVE_SUCCESS).toString());
     }
 
     public void loadConfig()
@@ -124,7 +156,7 @@ public class ConfigScreen extends TabBase
     @Override
     public String getTabName()
     {
-        return "Konfiguration";
+        return Texts.get().get(TextDefinition.CONFIGURATION).toString();
     }
 
     /**
@@ -134,7 +166,7 @@ public class ConfigScreen extends TabBase
     public void onTabSelect()
     {
         loadConfig();
-        this.label.setText("");
+        this.successLabel.setText("");
         this.saveButton.setDisable(true);
     }
 
@@ -160,7 +192,7 @@ public class ConfigScreen extends TabBase
             this.saveButton.setDisable(false);
         }));
 
-        this.label.setTextFill(Color.web("#2d9c33"));
+        this.successLabel.setTextFill(Color.web("#2d9c33"));
         this.saveButton.setDisable(false);
     }
 

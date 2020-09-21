@@ -85,7 +85,6 @@ public class AddBloodSugarScreen extends TabBase
 
         this.datePicker.setValue(LocalDate.now());
         this.timePicker.setValue(LocalTime.now());
-        this.saveButton.setText("");
     }
 
     private void setupTable()

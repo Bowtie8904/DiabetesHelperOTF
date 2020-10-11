@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.Collections;
 
 import bt.gui.fx.core.annot.FxmlElement;
-import bt.utils.num.NumberUtils;
+import bt.utils.NumberUtils;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
@@ -86,7 +86,7 @@ public class OverviewScreen extends TabBase
 
     private void setupTable()
     {
-        PercentageSizedTableColumn timestampCol = new PercentageSizedTableColumn();
+        PercentageSizedTableColumn<BloodSugarValueEntity, String> timestampCol = new PercentageSizedTableColumn();
         timestampCol.setText(Texts.get().get(TextDefinition.TIME).toString());
         timestampCol.setPercentageWidth(13);
 
@@ -145,15 +145,12 @@ public class OverviewScreen extends TabBase
             };
         });
 
-        PercentageSizedTableColumn beCol = new PercentageSizedTableColumn();
+        PercentageSizedTableColumn<BloodSugarValueEntity, String> beCol = new PercentageSizedTableColumn();
         beCol.setText(Texts.get().get(TextDefinition.BE).toString());
         beCol.setPercentageWidth(13);
 
-        beCol.setCellValueFactory(new Callback<CellDataFeatures<BloodSugarValueEntity, String>, ObservableValue<String>>()
+        beCol.setCellValueFactory(t ->
         {
-            @Override
-            public ObservableValue<String> call(CellDataFeatures<BloodSugarValueEntity, String> t)
-            {
                 var bolus = t.getValue().getBolus();
 
                 String text = "-";
@@ -165,9 +162,9 @@ public class OverviewScreen extends TabBase
 
                 return new ReadOnlyStringWrapper(text);
             }
-        });
+        );
 
-        PercentageSizedTableColumn factorCol = new PercentageSizedTableColumn();
+        PercentageSizedTableColumn<BloodSugarValueEntity, String> factorCol = new PercentageSizedTableColumn();
         factorCol.setText(Texts.get().get(TextDefinition.FACTOR).toString());
         factorCol.setPercentageWidth(13);
 
@@ -189,7 +186,7 @@ public class OverviewScreen extends TabBase
             }
         });
 
-        PercentageSizedTableColumn totalBolusCol = new PercentageSizedTableColumn();
+        PercentageSizedTableColumn<BloodSugarValueEntity, String> totalBolusCol = new PercentageSizedTableColumn();
         totalBolusCol.setText(Texts.get().get(TextDefinition.TOTAL_BOLUS).toString());
         totalBolusCol.setPercentageWidth(13);
 
@@ -211,7 +208,7 @@ public class OverviewScreen extends TabBase
             }
         });
 
-        PercentageSizedTableColumn bolusCol = new PercentageSizedTableColumn();
+        PercentageSizedTableColumn<BloodSugarValueEntity, String> bolusCol = new PercentageSizedTableColumn();
         bolusCol.setText(Texts.get().get(TextDefinition.BOLUS).toString());
         bolusCol.setPercentageWidth(13);
 
@@ -233,7 +230,7 @@ public class OverviewScreen extends TabBase
             }
         });
 
-        PercentageSizedTableColumn correctionCol = new PercentageSizedTableColumn();
+        PercentageSizedTableColumn<BloodSugarValueEntity, String> correctionCol = new PercentageSizedTableColumn();
         correctionCol.setText(Texts.get().get(TextDefinition.CORRECTION).toString());
         correctionCol.setPercentageWidth(13);
 

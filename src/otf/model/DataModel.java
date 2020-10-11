@@ -1,10 +1,12 @@
 package otf.model;
 
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import bt.log.Logger;
 import bt.types.Singleton;
 import otf.model.db.Database;
 import otf.obj.BloodSugarValueEntity;
@@ -37,6 +39,16 @@ public class DataModel
     public DataModel()
     {
         this.db = new Database();
+
+        try
+        {
+            this.db.setupQueryServer("Diabetes Helper OTF", 9000);
+        }
+        catch (IOException e)
+        {
+            Logger.global().print(e);
+        }
+
         this.bloodSugarValues = new ArrayList<>();
         this.foodEntities = new ArrayList<>();
     }
@@ -58,6 +70,8 @@ public class DataModel
         }
 
         this.correctionUnits = Integer.parseInt(correctionString);
+
+        List<BloodSugarValueEntity> copy = new ArrayList<>(this.bloodSugarValues);
 
         MessageDispatcher.get().dispatch(new ModelLoaded(this));
     }

@@ -18,7 +18,7 @@ import bt.gui.fx.core.annot.handl.evnt.type.FxOnMouseEntered;
 import bt.gui.fx.core.annot.handl.evnt.type.FxOnMouseExited;
 import bt.gui.fx.core.annot.setup.FxTextApply;
 import bt.gui.fx.util.ButtonHandling;
-import bt.utils.string.StringUtils;
+import bt.utils.StringUtils;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;

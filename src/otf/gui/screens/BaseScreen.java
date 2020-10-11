@@ -81,6 +81,8 @@ public class BaseScreen extends FxMultiScreen
 
         MessageDispatcher.get().subscribeTo(ModelLoadStarted.class, e -> Platform.runLater(() -> stage.setTitle(Texts.get().get(TextDefinition.TITLE_LOADING).toString())));
         MessageDispatcher.get().subscribeTo(ModelLoaded.class, e -> Platform.runLater(() -> stage.setTitle(Texts.get().get(TextDefinition.TITLE).toString())));
+
+        stage.setOnCloseRequest(e -> System.exit(0));
     }
 
     /**

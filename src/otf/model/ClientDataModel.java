@@ -12,7 +12,6 @@ import bt.remote.socket.Client;
 import bt.remote.socket.data.DataProcessor;
 import bt.remote.socket.evnt.ConnectionLost;
 import bt.types.Singleton;
-import otf.model.db.Database;
 import otf.obj.BloodSugarValueEntity;
 import otf.obj.BolusEntity;
 import otf.obj.BolusFactorEntity;
@@ -22,12 +21,18 @@ import otf.obj.msg.ModelLoadStarted;
 import otf.obj.msg.ModelLoaded;
 import otf.obj.msg.NewBloodSugarValue;
 import otf.obj.msg.NewBolus;
+import otf.obj.msg.remote.AddBloodSugarEntityRequest;
+import otf.obj.msg.remote.AddBolusEntityRequest;
+import otf.obj.msg.remote.AddFoodEntityRequest;
+import otf.obj.msg.remote.DeleteFoodEntityRequest;
 import otf.obj.msg.remote.ExecutableRequest;
 import otf.obj.msg.remote.ExecutableResponse;
 import otf.obj.msg.remote.GetBloodSugarValuesRequest;
 import otf.obj.msg.remote.GetBolusFactorsRequest;
 import otf.obj.msg.remote.GetCorrectionUnitsRequest;
 import otf.obj.msg.remote.GetFoodEntitiesRequest;
+import otf.obj.msg.remote.UpdateBolusFactorRequest;
+import otf.obj.msg.remote.UpdateCorrectionUnitsRequest;
 
 /**
  * @author &#8904
@@ -36,7 +41,6 @@ import otf.obj.msg.remote.GetFoodEntitiesRequest;
 public class ClientDataModel implements DataProcessor
 {
     private Client client;
-    private Database db;
     private List<BloodSugarValueEntity> bloodSugarValues;
     private List<FoodEntity> foodEntities;
     private BolusFactorEntity[] bolusFactors;
@@ -198,18 +202,26 @@ public class ClientDataModel implements DataProcessor
     public void addFoodEntity(FoodEntity entity)
     {
         this.foodEntities.add(entity);
-        this.db.insertFoodEntity(entity);
+    }
+
+    public void insertFoodEntity(FoodEntity entity)
+    {
+        send(new AddFoodEntityRequest(entity));
+    }
+
+    public void removeFoodEntity(FoodEntity entity)
+    {
+        this.foodEntities.remove(entity);
     }
 
     public void deleteFoodEntity(FoodEntity entity)
     {
-        this.foodEntities.remove(entity);
-        this.db.deleteFoodEntity(entity);
+        send(new DeleteFoodEntityRequest(entity));
     }
 
     public void updateBolusFactor(BolusFactorEntity entity)
     {
-        this.db.updateBolusFactor(entity);
+        send(new UpdateBolusFactorRequest(entity));
     }
 
     public int getCorrectionUnits()
@@ -228,33 +240,32 @@ public class ClientDataModel implements DataProcessor
 
     public void updateCorrectionUnits(int units)
     {
-        this.correctionUnits = units;
-        this.db.setProperty("CorrectionUnits", units + "");
+        send(new UpdateCorrectionUnitsRequest(units));
     }
 
     public void addBloodSugarValue(BloodSugarValueEntity entity)
     {
-        if (entity.getId() == null)
-        {
-            this.bloodSugarValues.add(entity);
-            Collections.sort(this.bloodSugarValues);
-            this.db.insertBloodSugarValue(entity);
-            MessageDispatcher.get().dispatch(new NewBloodSugarValue(entity));
-        }
+        this.bloodSugarValues.add(entity);
+        Collections.sort(this.bloodSugarValues);
+        MessageDispatcher.get().dispatch(new NewBloodSugarValue(entity));
     }
 
-    public void addBolus(BolusEntity entity)
+    public void insertBloodSugarValue(BloodSugarValueEntity entity)
     {
         if (entity.getId() == null)
         {
-            this.db.insertBolus(entity);
+            send(new AddBloodSugarEntityRequest(entity));
         }
     }
 
     public void connectBloodSugarBolus(BloodSugarValueEntity bz, BolusEntity bo)
     {
         bz.setBolus(bo);
-        this.db.connectBloodSugarBolus(bz, bo);
         MessageDispatcher.get().dispatch(new NewBolus(bz));
+    }
+
+    public void insertBloodSugarBolus(BloodSugarValueEntity bz, BolusEntity bo)
+    {
+        send(new AddBolusEntityRequest(bz, bo));
     }
 }

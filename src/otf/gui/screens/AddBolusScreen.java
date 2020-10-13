@@ -565,8 +565,7 @@ public class AddBolusScreen extends TabBase
         bolus.setCorrectionUnits(Double.parseDouble(StringUtils.leftPad(this.correctionTf.getText(), 1, "0")));
         bolus.setFactor(Double.parseDouble(StringUtils.leftPad(this.factorTf.getText(), 1, "0")));
 
-        ClientDataModel.get().addBolus(bolus);
-        ClientDataModel.get().connectBloodSugarBolus(this.selectedEntity, bolus);
+        ClientDataModel.get().insertBloodSugarBolus(this.selectedEntity, bolus);
 
         this.beTf.setText("0");
         this.correctionTf.setText("0");
@@ -584,7 +583,7 @@ public class AddBolusScreen extends TabBase
         food.setWeight(Integer.parseInt(StringUtils.leftPad(this.weightTf.getText(), 1, "0")));
         food.setCarbohydrates(Integer.parseInt(StringUtils.leftPad(this.foodBeTf.getText(), 1, "0")));
 
-        ClientDataModel.get().addFoodEntity(food);
+        ClientDataModel.get().insertFoodEntity(food);
         this.allFoodTable.getItems().setAll(ClientDataModel.get().getFoodEntities());
         Collections.sort(this.allFoodTable.getItems(), Comparator.comparing(FoodEntity::getName));
 
@@ -642,6 +641,7 @@ public class AddBolusScreen extends TabBase
         {
             refreshBzTableData();
             this.allFoodTable.getItems().setAll(ClientDataModel.get().getFoodEntities());
+            Collections.sort(this.allFoodTable.getItems(), Comparator.comparing(FoodEntity::getName));
             this.bzTable.setPlaceholder(new Label(Texts.get().get(TextDefinition.NO_VALUES_FOUND).toString()));
             this.allFoodTable.setPlaceholder(new Label(Texts.get().get(TextDefinition.NO_VALUES_FOUND).toString()));
             this.saveFoodButton.setDisable(false);

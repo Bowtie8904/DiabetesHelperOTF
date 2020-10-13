@@ -81,7 +81,7 @@ public class AddBloodSugarScreen extends TabBase
         var bz = new BloodSugarValueEntity();
         bz.setBloodSugar(Integer.parseInt(this.bzTextField.getText()));
         bz.setTimestamp(this.datePicker.getValue().toEpochSecond(this.timePicker.getValue(), OffsetDateTime.now().getOffset()) * 1000);
-        ClientDataModel.get().addBloodSugarValue(bz);
+        ClientDataModel.get().insertBloodSugarValue(bz);
 
         this.datePicker.setValue(LocalDate.now());
         this.timePicker.setValue(LocalTime.now());

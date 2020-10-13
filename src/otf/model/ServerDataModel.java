@@ -47,6 +47,7 @@ public class ServerDataModel implements DataProcessor
     public ServerDataModel()
     {
         this.db = new Database();
+        this.db.setLogCommit(false);
 
         try
         {
@@ -232,17 +233,10 @@ public class ServerDataModel implements DataProcessor
         }
     }
 
-    public void addBolus(BolusEntity entity)
-    {
-        if (entity.getId() == null)
-        {
-            this.db.insertBolus(entity);
-        }
-    }
-
     public void connectBloodSugarBolus(BloodSugarValueEntity bz, BolusEntity bo)
     {
         bz.setBolus(bo);
+        this.db.insertBolus(bo);
         this.db.connectBloodSugarBolus(bz, bo);
         MessageDispatcher.get().dispatch(new NewBolus(bz));
     }

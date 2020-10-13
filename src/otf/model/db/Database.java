@@ -251,7 +251,8 @@ public class Database extends EmbeddedDatabase
     public void connectBloodSugarBolus(BloodSugarValueEntity bz, BolusEntity bo)
     {
         update("BloodSugarValue").set("BolusID", bo.getId())
-                                 .where("bzID").equal(bz.getId())
+                                 .where("bzID")
+                                 .equal(bz.getId())
                                  .commit()
                                  .execute();
     }

@@ -1,10 +1,12 @@
 package otf.obj;
 
+import java.io.Serializable;
+
 /**
  * @author &#8904
  *
  */
-public class BloodSugarValueEntity implements Comparable<BloodSugarValueEntity>
+public class BloodSugarValueEntity implements Comparable<BloodSugarValueEntity>, Serializable
 {
     private Long id;
     private long timestamp;

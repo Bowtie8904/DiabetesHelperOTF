@@ -1,10 +1,12 @@
 package otf.obj;
 
+import java.io.Serializable;
+
 /**
  * @author &#8904
  *
  */
-public class FoodEntity
+public class FoodEntity implements Serializable
 {
     private Long id;
     private int weight;

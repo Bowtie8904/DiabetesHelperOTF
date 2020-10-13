@@ -1,10 +1,12 @@
 package otf.obj;
 
+import java.io.Serializable;
+
 /**
  * @author &#8904
  *
  */
-public class BolusEntity
+public class BolusEntity implements Serializable
 {
     private Long id;
     private double be;

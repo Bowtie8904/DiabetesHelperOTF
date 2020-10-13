@@ -1,10 +1,12 @@
 package otf.obj.msg.remote;
 
+import java.io.Serializable;
+
 /**
  * @author &#8904
  *
  */
-public interface ExecutableRequest
+public interface ExecutableRequest extends Serializable
 {
     /**
      * Defines the behavior that will be executed by the part that receives this request.

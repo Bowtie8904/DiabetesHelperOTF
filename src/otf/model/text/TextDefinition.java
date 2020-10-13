@@ -53,6 +53,7 @@ public class TextDefinition implements TextSource
     public static final int LABEL_MORNING = 30019;
     public static final int LABEL_NOON = 30020;
     public static final int LABEL_EVENING = 30021;
+    public static final int TITLE_CONNECTION_LOST = 30022;
 
     /**
      * @see bt.io.text.obj.TextSource#loadTexts(java.lang.String, java.lang.String)
@@ -106,7 +107,8 @@ public class TextDefinition implements TextSource
                                       new Text(SAVE, "Speichern", "DE"),
                                       new Text(DOUBLE_CORRECTION, "Doppelter Korrekturfaktor", "DE"),
                                       new Text(TITLE, "Diabetes Helper (OTF)", "DE"),
-                                      new Text(TITLE_LOADING, "Diabetes Helper (OTF)     Loading data...", "DE"),
+                                      new Text(TITLE_LOADING, "Diabetes Helper (OTF)     Lade Daten...", "DE"),
+                                      new Text(TITLE_CONNECTION_LOST, "Diabetes Helper (OTF)     Verbindung zum Server verloren", "DE"),
                                       new Text(TIME, "Zeit", "DE"));
         }
 

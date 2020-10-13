@@ -74,7 +74,7 @@ public class ClientDataModel implements DataProcessor
 
     public void onConnectionLost(ConnectionLost lost)
     {
-
+        MessageDispatcher.get().dispatch(lost);
     }
 
     public void send(ExecutableRequest request)

@@ -1,6 +1,6 @@
 package otf.obj.msg;
 
-import otf.model.DataModel;
+import otf.model.ClientDataModel;
 
 /**
  * @author &#8904
@@ -8,9 +8,9 @@ import otf.model.DataModel;
  */
 public class ModelLoaded
 {
-    private DataModel model;
+    private ClientDataModel model;
 
-    public ModelLoaded(DataModel model)
+    public ModelLoaded(ClientDataModel model)
     {
         this.model = model;
     }
@@ -18,7 +18,7 @@ public class ModelLoaded
     /**
      * @return the model
      */
-    public DataModel getModel()
+    public ClientDataModel getModel()
     {
         return this.model;
     }
@@ -27,7 +27,7 @@ public class ModelLoaded
      * @param model
      *            the model to set
      */
-    public void setModel(DataModel model)
+    public void setModel(ClientDataModel model)
     {
         this.model = model;
     }

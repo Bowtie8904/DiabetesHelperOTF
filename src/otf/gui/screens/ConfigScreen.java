@@ -21,7 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import otf.model.DataModel;
+import otf.model.ClientDataModel;
 import otf.model.text.TextDefinition;
 import otf.model.text.Texts;
 import otf.obj.msg.MessageDispatcher;
@@ -108,21 +108,21 @@ public class ConfigScreen extends TabBase
     public void saveConfig()
     {
         this.saveButton.setDisable(true);
-        var factors = DataModel.get().getBolusFactors();
+        var factors = ClientDataModel.get().getBolusFactors();
 
         factors[0].setFactor(Double.parseDouble(this.factorTf1.getText()));
         factors[0].setStartTime(this.timePicker1.getValue().toSecondOfDay() * 1000);
-        DataModel.get().updateBolusFactor(factors[0]);
+        ClientDataModel.get().updateBolusFactor(factors[0]);
 
         factors[1].setFactor(Double.parseDouble(this.factorTf2.getText()));
         factors[1].setStartTime(this.timePicker2.getValue().toSecondOfDay() * 1000);
-        DataModel.get().updateBolusFactor(factors[1]);
+        ClientDataModel.get().updateBolusFactor(factors[1]);
 
         factors[2].setFactor(Double.parseDouble(this.factorTf3.getText()));
         factors[2].setStartTime(this.timePicker3.getValue().toSecondOfDay() * 1000);
-        DataModel.get().updateBolusFactor(factors[2]);
+        ClientDataModel.get().updateBolusFactor(factors[2]);
 
-        DataModel.get().setCorrectionUnits(Integer.parseInt(this.correctionTf.getText()));
+        ClientDataModel.get().updateCorrectionUnits(Integer.parseInt(this.correctionTf.getText()));
 
         this.successLabel.setText(Texts.get().get(TextDefinition.SAVE_SUCCESS).toString());
     }
@@ -131,7 +131,7 @@ public class ConfigScreen extends TabBase
     {
         if (this.modelLoaded)
         {
-            var factors = DataModel.get().getBolusFactors();
+            var factors = ClientDataModel.get().getBolusFactors();
 
             this.factorTf1.setText(factors[0].getFactor() + "");
             this.factorTf2.setText(factors[1].getFactor() + "");
@@ -141,7 +141,7 @@ public class ConfigScreen extends TabBase
             this.timePicker2.setValue(LocalTime.ofSecondOfDay(factors[1].getStartTime() / 1000));
             this.timePicker3.setValue(LocalTime.ofSecondOfDay(factors[2].getStartTime() / 1000));
 
-            this.correctionTf.setText(DataModel.get().getCorretionUnits() + "");
+            this.correctionTf.setText(ClientDataModel.get().getCorrectionUnits() + "");
         }
     }
 

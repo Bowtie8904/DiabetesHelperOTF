@@ -7,7 +7,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import otf.model.DataModel;
+import otf.model.ClientDataModel;
 import otf.obj.BloodSugarValueEntity;
 import otf.obj.msg.DeletedBloodSugarValue;
 import otf.obj.msg.MessageDispatcher;
@@ -65,7 +65,7 @@ public class GraphScreen extends TabBase
             XYChart.Series series = new XYChart.Series();
             int i = 0;
 
-            for (var bz : DataModel.get().getBloodSugarValues())
+            for (var bz : ClientDataModel.get().getBloodSugarValues())
             {
                 series.getData().add(new XYChart.Data(bz.getTimestamp() + "", bz.getBloodSugar()));
                 i ++ ;

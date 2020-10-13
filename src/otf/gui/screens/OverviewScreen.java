@@ -16,7 +16,7 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import otf.gui.components.PercentageSizedTableColumn;
-import otf.model.DataModel;
+import otf.model.ClientDataModel;
 import otf.model.text.TextDefinition;
 import otf.model.text.Texts;
 import otf.obj.BloodSugarValueEntity;
@@ -55,7 +55,7 @@ public class OverviewScreen extends TabBase
 
     private void refreshTableData()
     {
-        this.table.getItems().setAll(DataModel.get().getBloodSugarValues());
+        this.table.getItems().setAll(ClientDataModel.get().getBloodSugarValues());
     }
 
     private void removeEntry(int index)

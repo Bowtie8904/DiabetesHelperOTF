@@ -39,14 +39,14 @@ public class Database extends EmbeddedDatabase
                 .column(new Column("CorrectionUnits", SqlType.DOUBLE).defaultValue(0))
                 .onAlreadyExists((stmt, e) ->
                 {
-                    Database.log.print("Table " + stmt.getName() + " already exists.");
-                    Database.log.print("Execution time: " + stmt.getExecutionTime());
+                    Logger.global().print("Table " + stmt.getName() + " already exists.");
+                    Logger.global().print("Execution time: " + stmt.getExecutionTime());
                     return 0;
                 })
                 .onSuccess((stmt, e) ->
                 {
-                    Database.log.print("Created table " + stmt.getName() + ".");
-                    Database.log.print("Execution time: " + stmt.getExecutionTime());
+                    Logger.global().print("Created table " + stmt.getName() + ".");
+                    Logger.global().print("Execution time: " + stmt.getExecutionTime());
                 })
                 .execute();
 
@@ -57,14 +57,14 @@ public class Database extends EmbeddedDatabase
                 .column(new Column("BolusID", SqlType.LONG).foreignKey(new ColumnForeignKey().references("Bolus", "boID").on(Delete.SET_NULL)))
                 .onAlreadyExists((stmt, e) ->
                 {
-                    Database.log.print("Table " + stmt.getName() + " already exists.");
-                    Database.log.print("Execution time: " + stmt.getExecutionTime());
+                    Logger.global().print("Table " + stmt.getName() + " already exists.");
+                    Logger.global().print("Execution time: " + stmt.getExecutionTime());
                     return 0;
                 })
                 .onSuccess((stmt, e) ->
                 {
-                    Database.log.print("Created table " + stmt.getName() + ".");
-                    Database.log.print("Execution time: " + stmt.getExecutionTime());
+                    Logger.global().print("Created table " + stmt.getName() + ".");
+                    Logger.global().print("Execution time: " + stmt.getExecutionTime());
                 })
                 .execute();
 
@@ -74,14 +74,14 @@ public class Database extends EmbeddedDatabase
                 .column(new Column("startTime", SqlType.LONG).defaultValue(0))
                 .onAlreadyExists((stmt, e) ->
                 {
-                    Database.log.print("Table " + stmt.getName() + " already exists.");
-                    Database.log.print("Execution time: " + stmt.getExecutionTime());
+                    Logger.global().print("Table " + stmt.getName() + " already exists.");
+                    Logger.global().print("Execution time: " + stmt.getExecutionTime());
                     return 0;
                 })
                 .onSuccess((stmt, e) ->
                 {
-                    Database.log.print("Created table " + stmt.getName() + ".");
-                    Database.log.print("Execution time: " + stmt.getExecutionTime());
+                    Logger.global().print("Created table " + stmt.getName() + ".");
+                    Logger.global().print("Execution time: " + stmt.getExecutionTime());
 
                     insertBolusFactor(new BolusFactorEntity(0.5, LocalTime.of(0, 0).toSecondOfDay() * 1000));
                     insertBolusFactor(new BolusFactorEntity(1.5, LocalTime.of(11, 30).toSecondOfDay() * 1000));
@@ -96,14 +96,14 @@ public class Database extends EmbeddedDatabase
                 .column(new Column("Carbohydrates", SqlType.INTEGER))
                 .onAlreadyExists((stmt, e) ->
                 {
-                    Database.log.print("Table " + stmt.getName() + " already exists.");
-                    Database.log.print("Execution time: " + stmt.getExecutionTime());
+                    Logger.global().print("Table " + stmt.getName() + " already exists.");
+                    Logger.global().print("Execution time: " + stmt.getExecutionTime());
                     return 0;
                 })
                 .onSuccess((stmt, e) ->
                 {
-                    Database.log.print("Created table " + stmt.getName() + ".");
-                    Database.log.print("Execution time: " + stmt.getExecutionTime());
+                    Logger.global().print("Created table " + stmt.getName() + ".");
+                    Logger.global().print("Execution time: " + stmt.getExecutionTime());
                 })
                 .execute();
     }

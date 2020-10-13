@@ -6,7 +6,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import bt.async.AsyncException;
+import bt.async.Data;
 import bt.log.Logger;
+import bt.remote.socket.Client;
+import bt.remote.socket.Server;
+import bt.remote.socket.data.DataProcessor;
+import bt.remote.socket.evnt.NewClientConnection;
+import bt.scheduler.Threads;
 import bt.types.Singleton;
 import otf.model.db.Database;
 import otf.obj.BloodSugarValueEntity;
@@ -14,35 +21,36 @@ import otf.obj.BolusEntity;
 import otf.obj.BolusFactorEntity;
 import otf.obj.FoodEntity;
 import otf.obj.msg.MessageDispatcher;
-import otf.obj.msg.ModelLoadStarted;
-import otf.obj.msg.ModelLoaded;
 import otf.obj.msg.NewBloodSugarValue;
 import otf.obj.msg.NewBolus;
+import otf.obj.msg.remote.ExecutableRequest;
+import otf.obj.msg.remote.ExecutableResponse;
 
 /**
  * @author &#8904
  *
  */
-public class DataModel
+public class ServerDataModel implements DataProcessor
 {
     private Database db;
+    private Server server;
     private List<BloodSugarValueEntity> bloodSugarValues;
     private List<FoodEntity> foodEntities;
     private BolusFactorEntity[] bolusFactors;
     private int correctionUnits;
 
-    public static DataModel get()
+    public static ServerDataModel get()
     {
-        return Singleton.of(DataModel.class);
+        return Singleton.of(ServerDataModel.class);
     }
 
-    public DataModel()
+    public ServerDataModel()
     {
         this.db = new Database();
 
         try
         {
-            this.db.setupQueryServer("Diabetes Helper OTF", 9000);
+            this.db.setupQueryServer("[SQL] Diabetes Helper OTF", 9000);
         }
         catch (IOException e)
         {
@@ -53,10 +61,88 @@ public class DataModel
         this.foodEntities = new ArrayList<>();
     }
 
+    public void setupServer(int port)
+    {
+        try
+        {
+            this.server = new Server(port);
+            this.server.setName("Diabetes Helper OTF");
+            this.server.setupMultiCastDiscovering();
+            this.server.getEventDispatcher().subscribeTo(NewClientConnection.class, this::newClient);
+            this.server.start();
+        }
+        catch (IOException e)
+        {
+            Logger.global().print(e);
+        }
+    }
+
+    protected void newClient(NewClientConnection msg)
+    {
+        msg.getClient().setRequestProcessor(this);
+    }
+
+    public void send(ExecutableRequest request)
+    {
+        for (var client : this.server.getClients())
+        {
+            Threads.get().executeCached(() ->
+            {
+                send(client, request);
+            });
+        }
+    }
+
+    protected void send(Client client, ExecutableRequest request)
+    {
+        try
+        {
+            Object response = client.send(request).get();
+
+            if (response != null)
+            {
+                if (response instanceof ExecutableResponse)
+                {
+                    ((ExecutableResponse)response).execute();
+                }
+                else if (response instanceof Throwable)
+                {
+                    ((Throwable)response).printStackTrace();
+                }
+            }
+        }
+        catch (AsyncException | IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @see bt.remote.socket.data.DataProcessor#process(bt.async.Data)
+     */
+    @Override
+    public Object process(Data incoming)
+    {
+        Object response = null;
+        Object request = incoming.get();
+
+        if (request != null)
+        {
+            if (request instanceof ExecutableRequest)
+            {
+                response = ((ExecutableRequest)request).execute();
+            }
+            else if (request instanceof Throwable)
+            {
+                ((Throwable)request).printStackTrace();
+            }
+        }
+
+        return response;
+    }
+
     public void loadData()
     {
-        MessageDispatcher.get().dispatch(new ModelLoadStarted(this));
-
         this.bloodSugarValues = this.db.selectBloodSugarValues();
         this.bolusFactors = this.db.selectBolusFactors();
         this.foodEntities = this.db.selectFoodEntities();
@@ -70,10 +156,6 @@ public class DataModel
         }
 
         this.correctionUnits = Integer.parseInt(correctionString);
-
-        List<BloodSugarValueEntity> copy = new ArrayList<>(this.bloodSugarValues);
-
-        MessageDispatcher.get().dispatch(new ModelLoaded(this));
     }
 
     /**
@@ -128,7 +210,7 @@ public class DataModel
         this.db.updateBolusFactor(entity);
     }
 
-    public int getCorretionUnits()
+    public int getCorrectionUnits()
     {
         return this.correctionUnits;
     }
@@ -146,7 +228,7 @@ public class DataModel
             this.bloodSugarValues.add(entity);
             Collections.sort(this.bloodSugarValues);
             this.db.insertBloodSugarValue(entity);
-            MessageDispatcher.get().dispatch(new NewBloodSugarValue(entity, this));
+            MessageDispatcher.get().dispatch(new NewBloodSugarValue(entity));
         }
     }
 
@@ -162,6 +244,6 @@ public class DataModel
     {
         bz.setBolus(bo);
         this.db.connectBloodSugarBolus(bz, bo);
-        MessageDispatcher.get().dispatch(new NewBolus(bz, this));
+        MessageDispatcher.get().dispatch(new NewBolus(bz));
     }
 }

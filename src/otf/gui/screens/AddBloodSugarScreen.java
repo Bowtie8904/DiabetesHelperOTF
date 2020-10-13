@@ -30,7 +30,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import otf.gui.components.PercentageSizedTableColumn;
-import otf.model.DataModel;
+import otf.model.ClientDataModel;
 import otf.model.text.TextDefinition;
 import otf.model.text.Texts;
 import otf.obj.BloodSugarValueEntity;
@@ -81,7 +81,7 @@ public class AddBloodSugarScreen extends TabBase
         var bz = new BloodSugarValueEntity();
         bz.setBloodSugar(Integer.parseInt(this.bzTextField.getText()));
         bz.setTimestamp(this.datePicker.getValue().toEpochSecond(this.timePicker.getValue(), OffsetDateTime.now().getOffset()) * 1000);
-        DataModel.get().addBloodSugarValue(bz);
+        ClientDataModel.get().addBloodSugarValue(bz);
 
         this.datePicker.setValue(LocalDate.now());
         this.timePicker.setValue(LocalTime.now());

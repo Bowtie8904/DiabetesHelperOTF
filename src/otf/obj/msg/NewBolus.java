@@ -1,6 +1,5 @@
 package otf.obj.msg;
 
-import otf.model.DataModel;
 import otf.obj.BloodSugarValueEntity;
 
 /**
@@ -10,12 +9,10 @@ import otf.obj.BloodSugarValueEntity;
 public class NewBolus
 {
     private BloodSugarValueEntity bz;
-    private DataModel model;
 
-    public NewBolus(BloodSugarValueEntity bz, DataModel model)
+    public NewBolus(BloodSugarValueEntity bz)
     {
         this.bz = bz;
-        this.model = model;
     }
 
     /**
@@ -33,22 +30,5 @@ public class NewBolus
     public void setBz(BloodSugarValueEntity bz)
     {
         this.bz = bz;
-    }
-
-    /**
-     * @return the model
-     */
-    public DataModel getModel()
-    {
-        return this.model;
-    }
-
-    /**
-     * @param model
-     *            the model to set
-     */
-    public void setModel(DataModel model)
-    {
-        this.model = model;
     }
 }

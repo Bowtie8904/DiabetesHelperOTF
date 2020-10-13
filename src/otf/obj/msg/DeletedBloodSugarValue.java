@@ -1,6 +1,6 @@
 package otf.obj.msg;
 
-import otf.model.DataModel;
+import otf.model.ClientDataModel;
 import otf.obj.BloodSugarValueEntity;
 
 /**
@@ -10,9 +10,9 @@ import otf.obj.BloodSugarValueEntity;
 public class DeletedBloodSugarValue
 {
     private BloodSugarValueEntity bz;
-    private DataModel model;
+    private ClientDataModel model;
 
-    public DeletedBloodSugarValue(BloodSugarValueEntity bz, DataModel model)
+    public DeletedBloodSugarValue(BloodSugarValueEntity bz, ClientDataModel model)
     {
         this.bz = bz;
         this.model = model;
@@ -38,7 +38,7 @@ public class DeletedBloodSugarValue
     /**
      * @return the model
      */
-    public DataModel getModel()
+    public ClientDataModel getModel()
     {
         return this.model;
     }
@@ -47,7 +47,7 @@ public class DeletedBloodSugarValue
      * @param model
      *            the model to set
      */
-    public void setModel(DataModel model)
+    public void setModel(ClientDataModel model)
     {
         this.model = model;
     }

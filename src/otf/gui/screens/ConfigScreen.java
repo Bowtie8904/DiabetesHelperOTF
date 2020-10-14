@@ -15,6 +15,8 @@ import bt.gui.fx.core.annot.handl.evnt.type.FxOnMouseEntered;
 import bt.gui.fx.core.annot.handl.evnt.type.FxOnMouseExited;
 import bt.gui.fx.core.annot.setup.FxTextApply;
 import bt.gui.fx.util.ButtonHandling;
+import bt.remote.socket.evnt.PingUpdate;
+import bt.utils.StringUtils;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -103,6 +105,9 @@ public class ConfigScreen extends TabBase
     @FxTextApply(textId = TextDefinition.CORRECTION)
     private Label correctionLabel;
 
+    @FxmlElement
+    private Label pingLabel;
+
     private boolean modelLoaded;
 
     public void saveConfig()
@@ -184,7 +189,6 @@ public class ConfigScreen extends TabBase
     @Override
     protected void prepareScreen()
     {
-
         MessageDispatcher.get().subscribeTo(ModelLoaded.class, e -> Platform.runLater(() ->
         {
             this.modelLoaded = true;
@@ -210,5 +214,12 @@ public class ConfigScreen extends TabBase
     @Override
     protected void prepareScene(Scene scene)
     {
+        MessageDispatcher.get().subscribeTo(PingUpdate.class, e ->
+        {
+            if (this.pingLabel != null)
+            {
+                Platform.runLater(() -> this.pingLabel.setText("Ping: " + StringUtils.leftPad(e.getPing() + "", 5, " ") + " ms"));
+            }
+        });
     }
 }

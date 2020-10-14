@@ -11,6 +11,7 @@ import bt.async.Data;
 import bt.remote.socket.Client;
 import bt.remote.socket.data.DataProcessor;
 import bt.remote.socket.evnt.ConnectionLost;
+import bt.remote.socket.evnt.PingUpdate;
 import bt.remote.socket.evnt.ReconnectFailed;
 import bt.remote.socket.evnt.ReconnectStarted;
 import bt.remote.socket.evnt.ReconnectSuccessfull;
@@ -71,6 +72,7 @@ public class ClientDataModel implements DataProcessor
             this.client.getEventDispatcher().subscribeTo(ReconnectStarted.class, e -> MessageDispatcher.get().dispatch(e));
             this.client.getEventDispatcher().subscribeTo(ReconnectFailed.class, e -> MessageDispatcher.get().dispatch(e));
             this.client.getEventDispatcher().subscribeTo(ReconnectSuccessfull.class, e -> MessageDispatcher.get().dispatch(e));
+            this.client.getEventDispatcher().subscribeTo(PingUpdate.class, e -> MessageDispatcher.get().dispatch(e));
             this.client.start();
         }
         catch (IOException e)

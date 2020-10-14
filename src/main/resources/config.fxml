@@ -122,4 +122,7 @@
          </children>
       </VBox>
    </center>
+   <top>
+      <Label fx:id="pingLabel" BorderPane.alignment="CENTER" />
+   </top>
 </BorderPane>

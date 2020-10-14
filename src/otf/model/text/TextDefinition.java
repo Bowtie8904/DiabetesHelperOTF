@@ -54,6 +54,8 @@ public class TextDefinition implements TextSource
     public static final int LABEL_NOON = 30020;
     public static final int LABEL_EVENING = 30021;
     public static final int TITLE_CONNECTION_LOST = 30022;
+    public static final int TITLE_RECONNECTING = 30023;
+    public static final int TITLE_RECONNECTION_FAILED = 30024;
 
     /**
      * @see bt.io.text.obj.TextSource#loadTexts(java.lang.String, java.lang.String)
@@ -108,6 +110,8 @@ public class TextDefinition implements TextSource
                                       new Text(DOUBLE_CORRECTION, "Doppelter Korrekturfaktor", "DE"),
                                       new Text(TITLE, "Diabetes Helper (OTF)", "DE"),
                                       new Text(TITLE_LOADING, "Diabetes Helper (OTF)     Lade Daten...", "DE"),
+                                      new Text(TITLE_RECONNECTING, "Diabetes Helper (OTF)     Versuche Verbindung zum Server aufzubauen", "DE"),
+                                      new Text(TITLE_RECONNECTION_FAILED, "Diabetes Helper (OTF)     Verbindung zum Server konnte nicht aufgebaut werden", "DE"),
                                       new Text(TITLE_CONNECTION_LOST, "Diabetes Helper (OTF)     Verbindung zum Server verloren", "DE"),
                                       new Text(TIME, "Zeit", "DE"));
         }

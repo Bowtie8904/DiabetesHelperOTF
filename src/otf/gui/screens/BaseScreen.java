@@ -3,6 +3,9 @@ package otf.gui.screens;
 import bt.gui.fx.core.FxMultiScreen;
 import bt.gui.fx.core.annot.FxmlElement;
 import bt.remote.socket.evnt.ConnectionLost;
+import bt.remote.socket.evnt.ReconnectFailed;
+import bt.remote.socket.evnt.ReconnectStarted;
+import bt.remote.socket.evnt.ReconnectSuccessfull;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
@@ -83,6 +86,9 @@ public class BaseScreen extends FxMultiScreen
         MessageDispatcher.get().subscribeTo(ModelLoadStarted.class, e -> Platform.runLater(() -> stage.setTitle(Texts.get().get(TextDefinition.TITLE_LOADING).toString())));
         MessageDispatcher.get().subscribeTo(ModelLoaded.class, e -> Platform.runLater(() -> stage.setTitle(Texts.get().get(TextDefinition.TITLE).toString())));
         MessageDispatcher.get().subscribeTo(ConnectionLost.class, e -> Platform.runLater(() -> stage.setTitle(Texts.get().get(TextDefinition.TITLE_CONNECTION_LOST).toString())));
+        MessageDispatcher.get().subscribeTo(ReconnectStarted.class, e -> Platform.runLater(() -> stage.setTitle(Texts.get().get(TextDefinition.TITLE_RECONNECTING).toString())));
+        MessageDispatcher.get().subscribeTo(ReconnectFailed.class, e -> Platform.runLater(() -> stage.setTitle(Texts.get().get(TextDefinition.TITLE_RECONNECTION_FAILED).toString())));
+        MessageDispatcher.get().subscribeTo(ReconnectSuccessfull.class, e -> Platform.runLater(() -> stage.setTitle(Texts.get().get(TextDefinition.TITLE).toString())));
 
         stage.setOnCloseRequest(e -> System.exit(0));
     }

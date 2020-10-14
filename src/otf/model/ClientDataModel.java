@@ -11,6 +11,9 @@ import bt.async.Data;
 import bt.remote.socket.Client;
 import bt.remote.socket.data.DataProcessor;
 import bt.remote.socket.evnt.ConnectionLost;
+import bt.remote.socket.evnt.ReconnectFailed;
+import bt.remote.socket.evnt.ReconnectStarted;
+import bt.remote.socket.evnt.ReconnectSuccessfull;
 import bt.types.Singleton;
 import otf.obj.BloodSugarValueEntity;
 import otf.obj.BolusEntity;
@@ -62,19 +65,18 @@ public class ClientDataModel implements DataProcessor
         try
         {
             this.client = new Client(host, port);
+            this.client.autoReconnect(-1);
             this.client.setRequestProcessor(this);
-            this.client.getEventDispatcher().subscribeTo(ConnectionLost.class, this::onConnectionLost);
+            this.client.getEventDispatcher().subscribeTo(ConnectionLost.class, e -> MessageDispatcher.get().dispatch(e));
+            this.client.getEventDispatcher().subscribeTo(ReconnectStarted.class, e -> MessageDispatcher.get().dispatch(e));
+            this.client.getEventDispatcher().subscribeTo(ReconnectFailed.class, e -> MessageDispatcher.get().dispatch(e));
+            this.client.getEventDispatcher().subscribeTo(ReconnectSuccessfull.class, e -> MessageDispatcher.get().dispatch(e));
             this.client.start();
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
-    }
-
-    public void onConnectionLost(ConnectionLost lost)
-    {
-        MessageDispatcher.get().dispatch(lost);
     }
 
     public void send(ExecutableRequest request)

@@ -9,11 +9,13 @@ import bt.db.EmbeddedDatabase;
 import bt.db.constants.Delete;
 import bt.db.constants.Generated;
 import bt.db.constants.SqlType;
+import bt.db.func.Sql;
 import bt.db.listener.impl.IdentityListener;
 import bt.db.statement.clause.Column;
 import bt.db.statement.clause.ColumnEntry;
 import bt.db.statement.clause.foreign.ColumnForeignKey;
 import bt.log.Logger;
+import bt.types.number.MutableInt;
 import otf.obj.BloodSugarValueEntity;
 import otf.obj.BolusEntity;
 import otf.obj.BolusFactorEntity;
@@ -110,7 +112,10 @@ public class Database extends EmbeddedDatabase
 
     public List<FoodEntity> selectFoodEntities()
     {
-        List<FoodEntity> list = new ArrayList<>();
+        var count = new MutableInt(0);
+        select(Sql.count("bzID").as("i")).into(count).from("BloodSugarValue").execute();
+
+        List<FoodEntity> list = new ArrayList<>(count.get());
 
         select().from("Food")
                 .onFail((stmt, e) ->
@@ -259,7 +264,10 @@ public class Database extends EmbeddedDatabase
 
     public List<BloodSugarValueEntity> selectBloodSugarValues()
     {
-        List<BloodSugarValueEntity> list = new ArrayList<>();
+        var count = new MutableInt(0);
+        select(Sql.count("bzID").as("i")).into(count).from("BloodSugarValue").execute();
+
+        List<BloodSugarValueEntity> list = new ArrayList<>(count.get());
 
         select().from("BloodSugarValue")
                 .join("Bolus").left().on("BolusID").equal(new ColumnEntry("boID"))

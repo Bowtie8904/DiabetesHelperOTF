@@ -1,6 +1,7 @@
 package otf.obj;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * @author &#8904
@@ -105,5 +106,15 @@ public class BloodSugarValueEntity implements Comparable<BloodSugarValueEntity>,
     public boolean equals(Object o)
     {
         return o != null && o instanceof BloodSugarValueEntity && ((BloodSugarValueEntity)o).getId().equals(this.id);
+    }
+
+    @Override
+    public String toString()
+    {
+        String str = "";
+        str += this.bloodSugar;
+        str += "  (" + new Timestamp(getTimestamp()) + ")";
+
+        return str;
     }
 }

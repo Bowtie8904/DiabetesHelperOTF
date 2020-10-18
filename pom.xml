@@ -35,11 +35,6 @@
 			<version>master-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.itext</groupId>
-			<artifactId>itext7</artifactId>
-			<version>7.1.12</version>
-		</dependency>
-		<dependency>
 			<groupId>org.controlsfx</groupId>
 			<artifactId>controlsfx</artifactId>
 			<version>11.0.0</version>
